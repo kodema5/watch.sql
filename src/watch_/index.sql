@@ -1,8 +1,18 @@
 create table if not exists watch_.payload (
     id regtype   -- type of payload
         not null
-        primary key
+        primary key,
+
+    rebuilt_tz timestamp with time zone, -- when matching functions are rebuilt
+
+    watcher_tz timestamp with time zone  -- last watcher updated
+                                         -- cached get_watcher can be used
+                                         -- if rebuilt_tz >= watcher_tz
+                                         -- else use eval_watcher
+
 );
+
+
 
 create table if not exists watch_.watcher (
     id text
