@@ -1,4 +1,10 @@
--- builds the query-text
+-- builds the query-texts
+-- for watchers of given payload type payload_t_
+-- returns:
+-- select {watcher_id}, match_f([watcher.context, ] payload)
+-- union
+-- select {watcher_id}, match_f([watcher.context, ] payload)
+-- ....
 
 create function watch.to_query_text (
     w _watch.watcher,

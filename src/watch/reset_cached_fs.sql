@@ -1,4 +1,4 @@
--- reset all get-match functions
+-- resets all watch.cached_watch_f(...) functions
 --
 create procedure watch.reset_cached_fs()
     language plpgsql
@@ -30,6 +30,8 @@ end;
 $$;
 
 -- wraps watchers for a given payload-type into a function
+--
+-- creates watch.cached_match_f(payload_t_)
 --
 create procedure watch.build_cached_match_f (
     payload_t_ regtype

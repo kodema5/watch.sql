@@ -1,6 +1,17 @@
 -- if watcher are to be dynamic while execution in other sessions,
 -- the cached functions may be invalidated
---
+
+-- eval_watcher dynamically returns the matching watchers
+-- select t.*
+-- from (
+--      select watch_id, match_f({context}, payload))
+--      union
+--      select watch_id, match_f({context}, payload))
+--      ...
+-- ) w (id, matched)
+-- join _watch.watcher t where t.id = w.id
+
+
 create function watch.eval_watcher (
     p anyelement,
     matched_ boolean default true

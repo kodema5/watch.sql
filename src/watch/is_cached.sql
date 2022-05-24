@@ -1,6 +1,9 @@
 -- checks if function cached
 --
 
+
+-- finds the arguments of a function
+--
 create function watch.function_arguments (
     fn regprocedure
 )
@@ -16,9 +19,13 @@ as $$
     ) x
 $$;
 
-
+-- a function is cached if it has
+-- watch.cached_match_f(payload_t_)
+--
+-- see: reset_cached_fs for detail
+--
 create function watch.is_cached (
-    id_ regtype
+    payload_t_ regtype
 )
     returns boolean
     language sql
@@ -35,14 +42,15 @@ as $$
                 on p.pronamespace = n.oid
             where n.nspname = 'watch'
                 and proname = 'cached_match_f'
-                and watch.function_arguments(p.oid) = id_::text
+                and watch.function_arguments(p.oid) = payload_t_::text
         )
     )
     from _watch.payload
-    where id = id_
+    where id = payload_t_
 $$;
 
-
+-- updates watcher_tz last-updated
+--
 create function watch.set_payload_watcher_tz_trigger()
     returns trigger
     language plpgsql
