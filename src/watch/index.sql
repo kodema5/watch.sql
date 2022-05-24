@@ -15,7 +15,7 @@
 
 -- uses dynamic sql to get matching watchers
 --
-\ir eval_matcher.sql
+\ir eval_watcher.sql
 
 -- for debugging
 --
@@ -34,7 +34,7 @@
 create function watch.get(
     p anyelement
 )
-    returns _watch.watcher
+    returns setof _watch.watcher
     language sql
     security definer
     stable
