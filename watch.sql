@@ -5,10 +5,10 @@ create extension if not exists ltree schema public;
 ------------------------------------------------------------------------------
 -- data
 \if :local
-    drop schema if exists watch_ cascade;
+    drop schema if exists _watch cascade;
 \endif
-create schema if not exists watch_;
-\ir src/watch_/index.sql
+create schema if not exists _watch;
+\ir src/_watch/index.sql
 
 ------------------------------------------------------------------------------
 -- code
@@ -24,7 +24,7 @@ create schema watch;
         b int
     );
 
-    insert into watch_.payload (id)
+    insert into _watch.payload (id)
         values (
             'tests.payload_t'::regtype
         );
@@ -65,7 +65,7 @@ create schema watch;
 
     -- register watchers
     --
-    insert into watch_.watcher (id, payload_t, context_t, context, match_f)
+    insert into _watch.watcher (id, payload_t, context_t, context, match_f)
     values
         (
             'watcher-1',

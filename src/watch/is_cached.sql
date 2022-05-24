@@ -38,7 +38,7 @@ as $$
                 and watch.function_arguments(p.oid) = id_::text
         )
     )
-    from watch_.payload
+    from _watch.payload
     where id = id_
 $$;
 
@@ -49,7 +49,7 @@ create function watch.set_payload_watcher_tz_trigger()
     security definer
 as $$
 begin
-    update watch_.payload
+    update _watch.payload
     set watcher_tz = clock_timestamp()
     where id = new.payload_t;
 
@@ -62,12 +62,12 @@ begin
     if not exists (
         select 1
         from pg_trigger
-        where tgrelid = 'watch_.watcher'::regclass
+        where tgrelid = '_watch.watcher'::regclass
             and tgname = 'watch_set_payload_watcher_tz_trigger'
     ) then
         create trigger watch_set_payload_watcher_tz_trigger
         after insert or update
-        on watch_.watcher
+        on _watch.watcher
         for each row
         execute procedure watch.set_payload_watcher_tz_trigger();
     end if;

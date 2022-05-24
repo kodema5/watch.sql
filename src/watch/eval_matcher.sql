@@ -5,7 +5,7 @@ create function watch.eval_watcher (
     p anyelement,
     matched_ boolean default true
 )
-    returns setof watch_.watcher
+    returns setof _watch.watcher
     language plpgsql
     security definer
 as $$
@@ -16,7 +16,7 @@ begin
         format('
             select t.*
             from ( %s ) w (id, matched)
-            join watch_.watcher t
+            join _watch.watcher t
                 on t.id = w.id
             where w.matched = %L
         ',

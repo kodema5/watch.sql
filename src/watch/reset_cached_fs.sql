@@ -22,7 +22,7 @@ begin
     -- rebuild all cached_match_f for each type
     for r in
         select *
-        from watch_.payload
+        from _watch.payload
     loop
         call watch.build_cached_match_f(r.id);
     end loop;
@@ -38,13 +38,13 @@ create procedure watch.build_cached_match_f (
     security definer
 as $$
 begin
-    update watch_.payload
+    update _watch.payload
     set rebuilt_tz = clock_timestamp()
     where id = payload_t_;
 
     if not exists (
         select 1
-        from watch_.watcher
+        from _watch.watcher
         where payload_t = payload_t_
     )
     then

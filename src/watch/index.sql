@@ -21,7 +21,7 @@
 create function watch.get(
     p anyelement
 )
-    returns watch_.watcher
+    returns _watch.watcher
     language sql
     security definer
     stable

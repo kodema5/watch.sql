@@ -1,7 +1,7 @@
 -- builds the query-text
 
 create function watch.to_query_text (
-    w watch_.watcher,
+    w _watch.watcher,
     payload_literal text default '$1'
 )
     returns text
@@ -37,6 +37,6 @@ as $$
         array_to_string(array_agg(
             watch.to_query_text(w, payload_literal)
         ), ' union ')
-    from watch_.watcher w
+    from _watch.watcher w
     where w.payload_t = payload_t_
 $$;

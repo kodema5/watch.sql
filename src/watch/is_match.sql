@@ -1,7 +1,7 @@
 -- likely for debugging purpose
 --
 create function watch.is_match(
-    w watch_.watcher,
+    w _watch.watcher,
     p anyelement
 )
     returns boolean
@@ -38,11 +38,11 @@ $$;
 create function watch.get_watcher_by_id (
     id_ text
 )
-    returns watch_.watcher
+    returns _watch.watcher
     language sql
     stable
 as $$
     select w
-    from watch_.watcher w
+    from _watch.watcher w
     where w.id = id_
 $$;
