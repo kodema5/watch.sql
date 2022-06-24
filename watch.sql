@@ -1,3 +1,7 @@
+\if :{?watch_sql}
+\else
+\set watch_sql true
+
 create extension if not exists "uuid-ossp" schema public;
 create extension if not exists pgcrypto schema public;
 create extension if not exists ltree schema public;
@@ -18,3 +22,5 @@ create schema watch;
 
 
 \ir tests/index.sql
+
+\endif
