@@ -1,3 +1,7 @@
+\if :{?watch_to_query_text_sql}
+\else
+\set watch_to_query_text_sql true
+
 -- builds the query-texts
 -- for watchers of given payload type payload_t_
 -- returns:
@@ -46,3 +50,5 @@ as $$
     from _watch.watcher w
     where w.payload_t = payload_t_
 $$;
+
+\endif

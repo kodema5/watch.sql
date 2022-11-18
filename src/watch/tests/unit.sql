@@ -1,3 +1,8 @@
+\if :{?watch_tests_unit_sql}
+\else
+\set watch_tests_unit_sql true
+
+\if :test
 -- a generic payload
 create type tests.payload_t as (
     a int,
@@ -88,9 +93,9 @@ begin
         n = 1,
         'but still can use eval_watcher');
 
-    -- watch.reset_cached_fs rebuilds the cache
+    -- watch.cache_fs rebuilds the cache
     --
-    call watch.reset_cached_fs();
+    call watch.cache_fs();
     return next ok(
         watch.is_cached('tests.payload_t'::regtype),
         'cache match functions');
@@ -141,3 +146,6 @@ begin
     return next ok(n = 0, 'no-watcher found');
 end;
 $$;
+
+\endif
+\endif

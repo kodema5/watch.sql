@@ -1,6 +1,12 @@
+\if :{?watch_reset_cached_fs_sql}
+\else
+\set watch_reset_cached_fs_sql true
+
+\ir to_query_text.sql
+
 -- resets all watch.cached_watch_f(...) functions
 --
-create procedure watch.reset_cached_fs()
+create procedure watch.cache_fs()
     language plpgsql
     security definer
 as $$
@@ -24,16 +30,16 @@ begin
         select *
         from _watch.payload
     loop
-        call watch.build_cached_match_f(r.id);
+        call watch.cache_f(r.id);
     end loop;
 end;
 $$;
 
 -- wraps watchers for a given payload-type into a function
 --
--- creates watch.cached_match_f(payload_t_)
+-- creates watch.cache_f(payload_t_)
 --
-create procedure watch.build_cached_match_f (
+create procedure watch.cache_f (
     payload_t_ regtype
 )
     language plpgsql
@@ -50,7 +56,7 @@ begin
         where payload_t = payload_t_
     )
     then
-        call watch.clear_cached_match_f(payload_t_);
+        call watch.drop_cache_f(payload_t_);
         return;
     end if;
 
@@ -71,9 +77,7 @@ end;
 $$;
 
 
--- clear cached_match_f
---
-create procedure watch.clear_cached_match_f (
+create procedure watch.drop_cache_f (
     payload_t_ regtype
 )
     language plpgsql
@@ -88,3 +92,4 @@ end;
 $$;
 
 
+\endif

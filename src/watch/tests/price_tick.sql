@@ -1,13 +1,13 @@
+\if :{?watch_tests_price_tick_sql}
+\else
+\set watch_tests_price_tick_sql true
+
+\if :test
 -- supposed a price tick
 create type tests.price_tick_t as (
     ticker text,
     price float
 );
-
-insert into _watch.payload (id)
-    values (
-        'tests.price_tick_t'::regtype
-    );
 
 -- user is to crate a price watch
 --
@@ -38,7 +38,7 @@ $$;
 --
 create function tests.new_price_watcher (
     a tests.price_watch_t,
-    id text default md5(uuid_generate_v4()::text)
+    id text default md5(gen_random_uuid()::text)
 )
     returns _watch.watcher
     language sql
@@ -56,11 +56,17 @@ $$;
 
 -- some tests
 --
-create function tests.test_price_tick()
+create function tests.test_watch_price_tick()
     returns setof text
     language plpgsql
 as $$
 begin
+
+    insert into _watch.payload (id)
+    values (
+        'tests.price_tick_t'::regtype
+    );
+
     perform tests.new_price_watcher (
         ('MSFT', 200, null)::tests.price_watch_t,
         'msft-above-200'
@@ -104,3 +110,5 @@ begin
 end;
 $$;
 
+\endif
+\endif

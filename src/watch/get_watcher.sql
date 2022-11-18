@@ -1,3 +1,8 @@
+\if :{?watch_get_watcher_sql}
+\else
+\set watch_get_watcher_sql true
+
+
 create function watch.get_watcher (
     payload anyelement,
     matched_ boolean default true
@@ -13,3 +18,5 @@ as $$
         on t.id = w.id
     where w.matched = matched_
 $$;
+
+\endif

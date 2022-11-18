@@ -1,3 +1,7 @@
+\if :{?watch_eval_watcher_sql}
+\else
+\set watch_eval_watcher_sql true
+
 -- if watcher are to be dynamic while execution in other sessions,
 -- the cached functions may be invalidated
 
@@ -39,3 +43,5 @@ begin
     using p;
 end;
 $$;
+
+\endif

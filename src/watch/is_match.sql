@@ -1,3 +1,7 @@
+\if :{?watch_is_natch_sql}
+\else
+\set watch_is_match_sql true
+
 -- likely for debugging purpose
 --
 create function watch.is_match(
@@ -46,3 +50,6 @@ as $$
     from _watch.watcher w
     where w.id = id_
 $$;
+
+
+\endif

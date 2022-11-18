@@ -1,3 +1,8 @@
+\if :{?watch_is_cached_sql}
+\else
+\set watch_is_cached_sql true
+
+
 -- checks if function cached
 --
 
@@ -82,3 +87,5 @@ begin
 
 end;
 $$;
+
+\endif
