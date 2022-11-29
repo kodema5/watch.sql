@@ -21,7 +21,7 @@ as $$
     -- returns id, match_f([context], $1)
     select format ('select %L, %s (%s%s)',
         w.id,
-        w.match_f::regproc,
+        w.match_f::regprocedure::regproc,
         (select case
             when w.context_t is null then ''
             else format('jsonb_populate_record(null::%s, %L::jsonb), ',
@@ -48,7 +48,7 @@ as $$
             watch.to_query_text(w, payload_literal)
         ), ' union ')
     from _watch.watcher w
-    where w.payload_t = payload_t_
+    where w.payload_t = payload_t_::text
 $$;
 
 \endif

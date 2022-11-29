@@ -11,18 +11,19 @@ create function watch.is_match(
     returns boolean
     language plpgsql
     stable
+    set search_path = "$user",public
 as $$
 declare
     a boolean;
 begin
-    if w.payload_t <> pg_typeof(p)
+    if w.payload_t <> pg_typeof(p)::text
     then
         return false;
     end if;
 
 
     execute format ('select %s (%s%s)',
-        w.match_f::regproc,
+        w.match_f::regprocedure::regproc,
         (select case
             when w.context_t is null then ''
             else format('jsonb_populate_record(null::%s, %L::jsonb), ',

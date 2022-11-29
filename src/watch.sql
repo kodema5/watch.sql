@@ -13,7 +13,8 @@ drop schema if exists watch cascade;
 create schema watch;
 
 create table if not exists _watch.payload (
-    id regtype   -- type of payload
+    id text -- type of payload
+        check (to_regtype(id) is not null)
         not null
         primary key,
 
@@ -32,13 +33,16 @@ create table if not exists _watch.watcher (
         default md5(gen_random_uuid()::text)
         primary key,
 
-    payload_t regtype   -- payload-type
+    payload_t text   -- payload-type
+        check (to_regtype(payload_t) is not null)
         references _watch.payload(id)
         on delete cascade,
 
-    match_f regprocedure, -- match_f(ctx, payload)
+    match_f text -- match_f(ctx, payload)
+        check (to_regprocedure(match_f) is not null),
 
-    context_t regtype,    -- optional context
+    context_t text -- optional context
+        check (context_t is null or to_regtype(context_t) is not null),
     context jsonb
 );
 

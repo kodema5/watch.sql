@@ -11,6 +11,7 @@ create function watch.get_watcher (
     language sql
     security definer
     stable
+    set search_path = "$user",public
 as $$
     select t
     from watch.cached_match_f(payload) w -- updated by watch.reset_cached_fs

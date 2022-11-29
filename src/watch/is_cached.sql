@@ -35,6 +35,7 @@ create function watch.is_cached (
     returns boolean
     language sql
     stable
+    set search_path = "$user",public
 as $$
     select (
         rebuilt_tz is not null
@@ -51,7 +52,7 @@ as $$
         )
     )
     from _watch.payload
-    where id = payload_t_
+    where id = payload_t_::text
 $$;
 
 -- updates watcher_tz last-updated

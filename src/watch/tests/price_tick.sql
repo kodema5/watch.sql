@@ -46,10 +46,10 @@ as $$
     insert into _watch.watcher (id, payload_t, context_t, context, match_f)
     values (
         id,
-        'tests.price_tick_t'::regtype,
-        'tests.price_watch_t'::regtype,
+        'tests.price_tick_t',
+        'tests.price_watch_t',
         to_jsonb(a),
-        'tests.match(tests.price_watch_t,tests.price_tick_t)'::regprocedure
+        'tests.match(tests.price_watch_t,tests.price_tick_t)'
     )
     returning *
 $$;
@@ -64,7 +64,7 @@ begin
 
     insert into _watch.payload (id)
     values (
-        'tests.price_tick_t'::regtype
+        'tests.price_tick_t'
     );
 
     perform tests.new_price_watcher (

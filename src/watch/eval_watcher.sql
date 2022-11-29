@@ -23,6 +23,7 @@ create function watch.eval_watcher (
     returns setof _watch.watcher
     language plpgsql
     security definer
+    set search_path = "$user",public
 as $$
 declare
     t text;

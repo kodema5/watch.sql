@@ -11,7 +11,7 @@ create type tests.payload_t as (
 
 insert into _watch.payload (id)
     values (
-        'tests.payload_t'::regtype
+        'tests.payload_t'
     );
 
 
@@ -54,20 +54,18 @@ insert into _watch.watcher (id, payload_t, context_t, context, match_f)
 values
     (
         'watcher-1',
-        'tests.payload_t'::regtype,
+        'tests.payload_t',
         null,
         null,
-        'tests.match(tests.payload_t)'::regprocedure
+        'tests.match(tests.payload_t)'
     ),
     (
         'watcher-2',
-        'tests.payload_t'::regtype,
-        'tests.context_t'::regtype,
+        'tests.payload_t',
+        'tests.context_t',
         jsonb_build_object('a', 2, 'b', 2),
-        'tests.match_w_context(tests.context_t,tests.payload_t)'::regprocedure
+        'tests.match_w_context(tests.context_t,tests.payload_t)'
     );
-
-
 
 create function tests.test_watch()
     returns setof text
